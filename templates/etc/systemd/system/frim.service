@@ -2,14 +2,15 @@
 # Added SuccessExitStatus=143
 # Seems to needed for Java based programs
 [Unit]
-Description=OpenIDM
+Description=ForgeRock Identity Manager
 After=remote-fs.target nss-lookup.target
 
 [Service]
 Type=simple
-ExecStart={{install_root}}/openidm/startup.sh
-ExecStop={{install_root}}/openidm/shutdown.sh
-User={{fr_user}}
+ExecStart={{ frim_install_directory }}/startup.sh {% if frim_sample_configuration_enabled or frim_custom_configuration_enabled %}-p {{ frim_instance_path }}{% endif %}
+
+ExecStop={{ frim_install_directory }}/shutdown.sh
+User={{ frim_fr_user }}
 Environment="JAVA_OPTS=-Djava.awt.headless=true -Xmx512M -XX:MaxPermSize=256m"
 SuccessExitStatus=143
 

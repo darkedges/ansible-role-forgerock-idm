@@ -1,5 +1,7 @@
 # Ansible Role: ForgeRock Identity Manager
 
+[![Build Status](https://travis-ci.com/darkedges/ansible-role-forgerock-idm.svg?branch=master)](https://travis-ci.com/darkedges/ansible-role-forgerock-idm)
+
 ## License
 
 Copyright © 2019 [DarkEdges](https://bitbucket.org/darkedges).  

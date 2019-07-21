@@ -1,0 +1,19 @@
+---
+
+install_root: /opt/ois
+frim_staging_dir: /tmp/staging
+frim_install_path: /opt/ois/frim
+frim_instance_path: "{{ frim_install_path }}"
+frim_fr_user: forgerock
+frim_fr_group: forgerock
+frim_install_operation: install
+
+frim_version: "6.5.0"
+frim_version_eval: true
+frim_install_file: "IDM{{ '-eval' if frim_version_eval  }}-{{ frim_version }}.zip"
+frim_service_name: "frim"
+frim_install_directory: "{{ frim_install_path }}/{{ frim_service_name }}"
+
+frim_custom_configuration_enabled: false
+frim_sample_configuration_enabled: true
+frim_sample_configuration: "sync-with-csv"

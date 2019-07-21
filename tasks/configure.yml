@@ -1,0 +1,22 @@
+---
+
+- name: Copy sample configuration to frim_instance_path
+  synchronize:
+    src: "{{ frim_install_directory }}/samples/{{ frim_sample_configuration }}/"
+    dest: "{{ frim_instance_path }}"
+  when: frim_sample_configuration_enabled
+
+
+- name: Create systemd script - CentOS/RHEL 6
+  template:
+    src: "etc/init.d/{{ frim_service_name }}"
+    dest: "/etc/init.d"
+    mode: 0755
+  when: ansible_distribution_major_version == '6'
+
+- name: Create systemd script - CentOS/RHEL 7
+  template:
+    src: "etc/systemd/system/{{ frim_service_name }}.service"
+    dest: "/etc/systemd/system/{{ frim_service_name }}.service"
+    mode: 0755
+  when: ansible_distribution_major_version >= '7'

@@ -2,6 +2,7 @@
 dependencies: []
 
 galaxy_info:
+  role_name: darkedges.forgerock_idm
   author: darkedges
   description: ForgeRock Identity Manager for Linux.
   company: "DarkEdges"

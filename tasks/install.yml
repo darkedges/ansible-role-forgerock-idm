@@ -1,0 +1,8 @@
+---
+
+- name: move archive to correct location
+  command: "mv {{ frim_staging_dir }}/{{ archive_contents.files[0].split('/')[0] }} {{ frim_install_directory }}"
+  become_user: "{{ frim_fr_user }}"
+  become: true
+  args:
+    creates: "{{ frim_install_directory }}/startup.sh"

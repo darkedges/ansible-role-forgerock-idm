@@ -1,71 +1,16 @@
 ---
 
-- name: Install required packages. This takes a while - be patient
-  package: 
-    name: "{{ item }}"
-    state: latest
-  with_items:
-   - unzip
-   - java-1.8.0-openjdk-headless.x86_64
+- include_tasks: "extract.yml"
+  when: frim_install_operation == 'extract' or
+        frim_install_operation == 'install'
 
-- name: create top level software directories
-  file: 
-    state: directory 
-    path: "{{ install_root }}" 
-    owner: "{{ fr_user }}" 
-    mode: 0755
-  with_items:
-    - "{{ install_root }}" 
-    - "{{ staging_dir }}" 
+- include_tasks: "install.yml"
+  when: frim_install_operation == 'install'
 
-- name: upload staging files
-  copy:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: "{{ fr_user }}"
-    mode: 0755 
-  with_items:
-    - src: "openidm.zip"
-      dest: "{{ staging_dir }}/openidm.zip"   
+- include_tasks: "configure.yml"
+  when: frim_install_operation == 'configure' or
+        frim_install_operation == 'install'
 
-- name: unarchive
-  unarchive: 
-      src: "{{staging_dir}}/openidm.zip" 
-      dest: "{{install_root}}" 
-      copy: no      
-
-- name: "Change ownership of openidm to {{ fr_user }} user"
-  file: 
-        path: "{{install_root}}/openidm" 
-        owner: "{{fr_user}}"
-        group: "{{fr_user}}"
-        state: directory 
-        recurse: yes
-
-- name: Create systemd script - CentOS/RHEL 6
-  template: 
-    src: "etc/init.d/openidm" 
-    dest: "/etc/init.d"
-    mode: 0755
-  when: ansible_distribution_major_version == '6'
-
-- name: Create systemd script - CentOS/RHEL 7
-  template: 
-    src: "etc/systemd/system/openidm.service" 
-    dest: "/etc/systemd/system/openidm.service"
-    mode: 0755
-  when: ansible_distribution_major_version >= '7'
-
-- name: Enable openidm service - CentOS/RHEL 6
-  service: 
-    name: openidm 
-    state: restarted 
-    enabled: yes
-  when: ansible_distribution_major_version == '6'
-
-- name: Enable openidm service - CentOS/RHEL 7
-  service: 
-    name: openidm.service 
-    state: restarted 
-    enabled: yes
-  when: ansible_distribution_major_version >= '7'      
+- include_tasks: "enableService.yml"
+  when: frim_install_operation == 'enablservice' or
+        frim_install_operation == 'install'
