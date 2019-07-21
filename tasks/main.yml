@@ -54,7 +54,7 @@
     src: "etc/systemd/system/openidm.service" 
     dest: "/etc/systemd/system/openidm.service"
     mode: 0755
-  when: ansible_distribution_major_version == '7'
+  when: ansible_distribution_major_version >= '7'
 
 - name: Enable openidm service - CentOS/RHEL 6
   service: 
@@ -68,4 +68,4 @@
     name: openidm.service 
     state: restarted 
     enabled: yes
-  when: ansible_distribution_major_version == '7'      
+  when: ansible_distribution_major_version >= '7'      
